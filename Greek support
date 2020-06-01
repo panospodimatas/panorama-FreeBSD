@@ -1,1 +1,85 @@
-Greek Support
+
+Για τον root
+------------
+Δίνουμε την εντολή: 
+# ee /root/.cshrc
+
+Προσθέστε στο τέλος τις ακόλουθες γραμμές:
+
+setenv LANG el_GR.UTF-8
+
+Μετά Ctrl-c και "exit" για να γραφτούν οι αλλαγές και να τερματίσει το πρόγραμμα.
+
+
+
+
+
+Για τον χρήστη
+--------------
+
+Ωραία , τώρα ας εγκαταστήσουμε το Bash…..
+
+# pkg install bash
+
+To bash απαιτεί το fdescfs(5) mounted στο /dev/fd
+
+Από γραμμή εντολής γίνεται:
+
+# mount -t fdescfs fdesc /dev/fd
+
+Και για να υπάρχει μόνιμα πρέπει να προσθέσουμε στο /etc/fstab:
+
+	fdesc	/dev/fd		fdescfs		rw	0	0
+
+Log in σαν user
+Δίνουμε την εντολή: 
+$ ee ~/.profile
+
+Και προσθέτουμε στο τέλος:
+
+if [ -f ~/.bashrc ]; then
+source ~/.bashrc
+fi
+
+Δίνουμε την εντολή:
+$ ee ~/.bashrc
+
+Και προσθέτουμε:
+
+# Set LANG variable for Greek encoding
+export LANG=el_GR.UTF-8
+# Show color ls output
+alias ls='ls -G'
+# Show color prompt
+PS1='\[\033[01;34m\]\u@\h\[\033[00m\]:\[\033[01;36m\]\w\[\033[00m\]\$ '
+
+Δίνουμε την εντολή:
+$ chsh -s bash
+
+Ελληνικά σε όλο το σύστημα..!!
+------------------------------
+
+Δίνουμε την εντολή σαν root:
+
+# ee /etc/login.conf
+
+Αντικαθιστούμε τη γραμμή που λέει ":umask=022:" με τα παρακάτω:
+
+	:umask=022:\
+  :charset=UTF-8:\
+  :lang=el_GR.UTF-8:
+
+Δίνουμε την εντολή σαν root:  
+# cap_mkdb /etc/login.conf
+
+Δίνουμε την εντολή σαν root:
+# ee /etc/profile
+
+Και προσθέτουμε:
+LANG=el_GR.UTF-8;     export LANG
+CHARSET=UTF-8;  export CHARSET
+GDM_LANG=el_GR.UTF-8;  export GDM_LANG
+
+Δίνουμε την εντολή σαν root:
+# reboot
+
